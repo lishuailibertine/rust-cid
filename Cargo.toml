@@ -21,6 +21,11 @@ unsigned-varint = "0.3"
 quickcheck = { version = "0.9.2", optional = true }
 rand = { version = "0.7.3", optional = true }
 
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_bytes = { version = "0.11", optional = true }
+serde_cbor = { version = "0.11.1", features = ["tags"], optional = true }
+serde_json = { version = "1.0", optional = true }
+
 [dev-dependencies]
 quickcheck = "0.9.2"
 rand = "0.7.3"
@@ -28,3 +33,4 @@ multihash = { version = "0.11", features = ["test"] }
 
 [features]
 test = ["quickcheck", "rand"]
+impl-serde = ["serde", "serde_bytes", "serde_cbor", "serde_json"]
