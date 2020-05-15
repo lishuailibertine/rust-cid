@@ -2,14 +2,14 @@ use std::collections::HashMap;
 use std::convert::{TryFrom, TryInto};
 use std::str::FromStr;
 
-use cid::{Cid, Codec, Error, Version};
+use cid::{Cid, Codec, Error, IntoExt, Version};
 use multihash::Sha2_256;
 
 #[test]
 fn basic_marshalling() {
     let h = Sha2_256::digest(b"beep boop");
 
-    let cid = Cid::new_v1(Codec::DagProtobuf, h);
+    let cid = Cid::new_v1(Codec::DagProtobuf, h.into_ext());
 
     let data = cid.to_bytes();
     let out = Cid::try_from(data.clone()).unwrap();
@@ -79,7 +79,7 @@ fn test_hash() {
     let data: Vec<u8> = vec![1, 2, 3];
     let hash = Sha2_256::digest(&data);
     let mut map = HashMap::new();
-    let cid = Cid::new_v0(hash).unwrap();
+    let cid = Cid::new_v0(hash.into_ext()).unwrap();
     map.insert(cid.clone(), data.clone());
     assert_eq!(&data, map.get(&cid).unwrap());
 }
@@ -89,5 +89,5 @@ fn test_base32() {
     let cid = Cid::from_str("bafkreibme22gw2h7y2h7tg2fhqotaqjucnbc24deqo72b6mkl2egezxhvy").unwrap();
     assert_eq!(cid.version(), Version::V1);
     assert_eq!(cid.codec(), Codec::Raw);
-    assert_eq!(cid.hash(), Sha2_256::digest(b"foo"));
+    assert_eq!(cid.hash(), Sha2_256::digest(b"foo").into_ext());
 }

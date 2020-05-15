@@ -6,10 +6,11 @@ use unsigned_varint::{decode as varint_decode, encode as varint_encode};
 
 use crate::codec::Codec;
 use crate::error::{Error, Result};
+use crate::multihash::ExtCode;
 use crate::version::Version;
 
 /// A CID with the default Multihash code table
-pub type Cid = CidGeneric<Codec, Code>;
+pub type Cid = CidGeneric<Codec, ExtCode>;
 
 /// Representation of a CID.
 ///
